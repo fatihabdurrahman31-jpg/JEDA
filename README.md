@@ -506,7 +506,7 @@ const SCENARIOS = {
       { id:1, title:'Penilaian Tugas Akhir Mahasiswa', impact:'Tinggi — menentukan kelulusan', source:'AI merekomendasikan skor berdasarkan rubrik otomatis', status:'pending', verifyType:'Wawancara singkat dengan dosen pembimbing' },
       { id:2, title:'Pembagian Kelompok Praktikum', impact:'Sedang — mempengaruhi pengalaman belajar', source:'Algoritma pembagian acak berdasarkan IPK', status:'verified', verifyType:'Sudah dikonfirmasi koordinator' },
       { id:3, title:'Rekomendasi Topik Penelitian', impact:'Tinggi — menentukan arah 6 bulan kerja', source:'AI menganalisis tren dan menyarankan 3 topik', status:'pending', verifyType:'Diskusi tatap muka dengan dosen pembimbing' },
-      { id:4, title:'Evaluasi Kinerja Asisten Laboratorium', impact:'Tinggi — menentukan kontrak lanjutan', source:'AI meringkas feedback mahasiswa + log aktivitas', status:'pending', verifyType:'Wawancara langsung dengan kapal lab' },
+      { id:4, title:'Evaluasi Kinerja Asisten Laboratorium', impact:'Tinggi — menentukan kontrak lanjutan', source:'AI meringkas feedback mahasiswa + log aktivitas', status:'pending', verifyType:'Wawancara langsung dengan kepala lab' },
       { id:5, title:'Jadwal Ujian Semua Mata Kuliah', impact:'Rendah — logistik administratif', source:'AI mengoptimalkan jadwal berdasarkan ketersediaan ruang', status:'verified', verifyType:'Tidak perlu verifikasi manual (risiko rendah)' },
     ],
     D: [
@@ -610,6 +610,7 @@ function loadScenario(key) {
   document.getElementById('lockOverlay').querySelector('.lock-icon').innerHTML = '<i data-lucide="lock" class="w-5 h-5 text-red-400"></i>';
   document.getElementById('lockOverlay').querySelector('.lock-icon').className = 'lock-icon';
   document.getElementById('lockOverlay').querySelector('p:first-of-type').textContent = 'AI Terkunci';
+  document.getElementById('lockOverlay').querySelector('p:first-of-type').className = 'text-xs font-medium text-red-400';
   document.getElementById('lockOverlay').querySelector('p:last-of-type').textContent = 'Tulis jawaban manual dulu untuk membuka kunci akses AI';
   document.getElementById('comparisonSection').classList.add('hidden');
 
@@ -837,7 +838,6 @@ function addTrailEntryAuto(entry) {
 
 function renderTrailTimeline() {
   const container = document.getElementById('trailTimeline');
-  const empty = document.getElementById('trailEmpty');
   document.getElementById('trailCount').textContent = trailEntries.length + ' entri';
 
   if (trailEntries.length === 0) {
@@ -974,21 +974,21 @@ function showReflectionResult() {
     interp.style.borderColor = 'rgba(16,185,129,0.15)';
     interpHTML = `
       <p class="text-xs font-medium text-emerald-400 mb-2">✓ Kalibrasi Baik</p>
-      <p class="text-[11px] text-slate-400 font-light leading-relaxed">Selisih antara keyakinan dan kemampuan aktalmu kecil (${gap > 0 ? '+' : ''}${gap}%). Artinya kamu cukup akurat menilai batas pemahamanmu sendiri — ini menunjukkan kesadaran metakognitif yang baik. Pemahamanmu kemungkinan bukan sekadar "pinjaman" dari AI.</p>
+      <p class="text-[11px] text-slate-400 font-light leading-relaxed">Selisih antara keyakinan dan kemampuan aktualmu kecil (${gap > 0 ? '+' : ''}${gap}%). Artinya kamu cukup akurat menilai batas pemahamanmu sendiri — ini menunjukkan kesadaran metakognitif yang baik. Pemahamanmu kemungkinan bukan sekadar "pinjaman" dari AI.</p>
     `;
   } else if (gap > 15) {
     interp.style.background = 'rgba(239,68,68,0.05)';
     interp.style.borderColor = 'rgba(239,68,68,0.15)';
     interpHTML = `
       <p class="text-xs font-medium text-red-400 mb-2">⚠ Ilusi Kompetensi Terdeteksi</p>
-      <p class="text-[11px] text-slate-400 font-light leading-relaxed">Kamu merasa yakin ${confidenceValue}%, tapi kemampuan aktalmu hanya ${actual}%. Selisih +${gap}% mengindikasikan kamu mungkin mengalami <strong class="text-white">processing fluency illusion</strong> — kelancaran membaca output AI terasa seperti pemahaman, padahal tidak. Ini tepatnya masalah yang JEDA cegah.</p>
+      <p class="text-[11px] text-slate-400 font-light leading-relaxed">Kamu merasa yakin ${confidenceValue}%, tapi kemampuan aktualmu hanya ${actual}%. Selisih +${gap}% mengindikasikan kamu mungkin mengalami <strong class="text-white">processing fluency illusion</strong> — kelancaran membaca output AI terasa seperti pemahaman, padahal tidak. Ini tepatnya masalah yang JEDA cegah.</p>
     `;
   } else {
     interp.style.background = 'rgba(245,158,11,0.05)';
     interp.style.borderColor = 'rgba(245,158,11,0.15)';
     interpHTML = `
       <p class="text-xs font-medium text-amber-400 mb-2">↓ Underconfidence</p>
-      <p class="text-[11px] text-slate-400 font-light leading-relaxed">Kamu merasa yakin ${confidenceValue}%, tapi kemampuan aktalmu ${actual}%. Kamu sebenarnya lebih paham dari yang kamu kira. Mungkin proses berpikir yang kamu lalui di Modul J memberikan fondasi yang lebih kuat dari yang kamu sadari.</p>
+      <p class="text-[11px] text-slate-400 font-light leading-relaxed">Kamu merasa yakin ${confidenceValue}%, tapi kemampuan aktualmu ${actual}%. Kamu sebenarnya lebih paham dari yang kamu kira. Mungkin proses berpikir yang kamu lalui di Modul J memberikan fondasi yang lebih kuat dari yang kamu sadari.</p>
     `;
   }
   interp.innerHTML = interpHTML;
